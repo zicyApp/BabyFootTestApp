@@ -1,18 +1,161 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.robertpolovitzer.babyfoot.LoginActivity">
+    android:background="@color/colorWhite">
 
-    <TextView
+    <ImageView
+        android:id="@+id/header_logo"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="120dp"
+        android:layout_marginRight="120dp"
+        android:layout_marginTop="24dp"
+        android:maxWidth="137dp"
+        android:src="@drawable/image_balle"
+        app:layout_constraintDimensionRatio="H,1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.example.robertpolovitzer.babyfoot.custom.BrandonGrotesqueTextView
+        android:id="@+id/text_babyfoot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:text="@string/app_name"
+        android:textAllCaps="true"
+        android:textColor="@color/colorTextGreen"
+        android:textSize="35sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header_logo" />
+
+    <com.example.robertpolovitzer.babyfoot.custom.RobotoRegularTextView
+        android:id="@+id/text_enter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="180dp"
+        android:text="@string/login_header_text"
+        android:textAlignment="center"
+        android:textColor="@color/colorTextDark"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_babyfoot" />
+
+
+    <LinearLayout
+        android:id="@+id/lnr_form"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_enter">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="46dp">
+
+            <com.example.robertpolovitzer.babyfoot.custom.RobotoMediumTextView
+                android:id="@+id/req_firstname"
+                android:layout_width="wrap_content"
+                android:layout_height="46dp"
+                android:layout_gravity="end"
+                android:gravity="center"
+                android:text="@string/required"
+                android:textColor="@color/colorTextGrayLight"
+                android:textSize="17sp" />
+
+            <com.example.robertpolovitzer.babyfoot.custom.RobotoMediumEditText
+                android:id="@+id/form_firstname"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:background="@android:color/transparent"
+                android:hint="@string/first_name"
+                android:textColor="@color/colorTextDark"
+                android:textColorHint="@color/colorTextDark"
+                android:singleLine="true"/>
+
+        </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/colorTextGrayLight" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="46dp">
+
+            <com.example.robertpolovitzer.babyfoot.custom.RobotoMediumTextView
+                android:id="@+id/req_lastname"
+                android:layout_width="wrap_content"
+                android:layout_height="46dp"
+                android:layout_gravity="end"
+                android:gravity="center"
+                android:text="@string/required"
+                android:textColor="@color/colorTextGrayLight"
+                android:textSize="17sp" />
+
+            <com.example.robertpolovitzer.babyfoot.custom.RobotoMediumEditText
+                android:id="@+id/form_lastname"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:background="@android:color/transparent"
+                android:hint="@string/last_name"
+                android:textColor="@color/colorTextDark"
+                android:textColorHint="@color/colorTextDark"
+                android:singleLine="true"
+                />
+        </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/colorTextGrayLight" />
+
+        <com.example.robertpolovitzer.babyfoot.custom.RobotoMediumTextView
+            android:id="@+id/submit_button"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/green_button_rounded"
+            android:gravity="center"
+            android:text="@string/btn_continue"
+            android:textColor="@color/colorWhite"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/logo_agyl"
+        app:layout_constraintBottom_toTopOf="@id/text_bottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.example.robertpolovitzer.babyfoot.custom.RobotoRegularTextView
+        android:id="@+id/text_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="@string/login_bottom_text"
+        android:textColor="@color/colorTextGrayLight"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
