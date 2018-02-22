@@ -136,7 +136,6 @@ class LoginActivity : AppCompatActivity() {
         ApiHandler().getService(this@LoginActivity, false)?.postLogin(login, object: Callback<LoginResponseObject> {
             override fun success(t: LoginResponseObject?, response: Response?) {
                 if (t != null) {
-                    ApiHandler().setApiToken(t.accessToken)
                     AppHelper().setPref(applicationContext, AppHelper().SessionAccessToken, t.accessToken)
                     AppHelper().setPref(applicationContext, AppHelper().SessionRefreshToken, t.refreshToken)
                     AppHelper().setPref(applicationContext, AppHelper().SessionIssuedAt, t.issuedAt)

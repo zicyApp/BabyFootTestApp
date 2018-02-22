@@ -4,6 +4,8 @@ import android.content.Context
 import android.widget.Toast
 import com.example.robertpolovitzer.babyfoot.api.objects.LoginObject
 import com.example.robertpolovitzer.babyfoot.api.objects.LoginResponseObject
+import com.example.robertpolovitzer.babyfoot.api.objects.MatchListObject
+import com.example.robertpolovitzer.babyfoot.helpers.AppHelper
 import com.google.gson.*
 import com.google.gson.reflect.TypeToken
 import com.google.gson.stream.JsonReader
@@ -28,31 +30,23 @@ import java.util.concurrent.TimeUnit
  */
 class ApiHandler {
 
-    private var ApiToken = ""
-
-    var TokenObtainDateTime: Long = 0
-    val ApiTokenExpiryTimeInMs: Long = 14400000 //! 4 hours
+    var context: Context? = null
 
     private var ApiService: ApiInterface? = null
     private var AppKey: String = "3w5MTCehQUfNzPcwC26WKyPBbRUxEGxr"
     private var SecretKey: String = "QR4cjjEVhvsewwqwuZ8fm699LYFEzfXs"
     val ApiPageBaseUrl = "http://babyfoot.agyl.ninja"
 
-    fun setApiToken(apiToken: String) {
-        ApiHandler().ApiToken = apiToken
-        ApiHandler().TokenObtainDateTime = System.currentTimeMillis()
-    }
-
     interface ApiInterface {
         @GET("/v1/matches")
-        fun getAllShoutboxUsers(callback: Callback<ArrayList<MatchListObject>>)
+        fun getAllMatches(callback: Callback<ArrayList<MatchListObject>>)
 
         @POST("/v1/user/login")
         fun postLogin(@Body loginInfo: LoginObject, callback: Callback<LoginResponseObject>)
     }
 
     private val RequestBearer = RequestInterceptor {
-        request -> request.addHeader("Authorization", "Bearer " + ApiToken)
+        request -> request.addHeader("Authorization", "Bearer " + AppHelper().getBearer(context!!))
     }
 
     private val RequestBasic = RequestInterceptor {
@@ -105,6 +99,7 @@ class ApiHandler {
             .create()
 
     fun getService(context: Context?, checkIfBearer: Boolean): ApiInterface? {
+        this.context = context
         if (ApiService == null) {
             val okHttpClient = OkHttpClient()
             okHttpClient.setReadTimeout(60, TimeUnit.SECONDS)

@@ -46,6 +46,13 @@ class AppHelper {
 
     }
 
+    fun getBearer(c: Context): String {
+        if (getPref(c, AppHelper().SessionAccessToken, "") != null) {
+            return getPref(c, AppHelper().SessionAccessToken, "").toString()
+        }
+        return ""
+    }
+
     fun getFont(c: Context, path: String): Typeface {
         return Typeface.createFromAsset(c.assets, path)
     }

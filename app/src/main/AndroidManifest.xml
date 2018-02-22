@@ -23,6 +23,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".activities.ListActivity"
+            android:configChanges="navigation|orientation|screenLayout|uiMode|screenSize|keyboard"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            />
+
     </application>
 
 </manifest>
