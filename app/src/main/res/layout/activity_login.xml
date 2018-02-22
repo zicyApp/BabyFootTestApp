@@ -82,7 +82,7 @@
                 android:background="@android:color/transparent"
                 android:hint="@string/first_name"
                 android:textColor="@color/colorTextDark"
-                android:textColorHint="@color/colorTextDark"
+                android:textColorHint="@color/colorTextGrayLight"
                 android:singleLine="true"/>
 
         </FrameLayout>
@@ -113,7 +113,7 @@
                 android:background="@android:color/transparent"
                 android:hint="@string/last_name"
                 android:textColor="@color/colorTextDark"
-                android:textColorHint="@color/colorTextDark"
+                android:textColorHint="@color/colorTextGrayLight"
                 android:singleLine="true"
                 />
         </FrameLayout>

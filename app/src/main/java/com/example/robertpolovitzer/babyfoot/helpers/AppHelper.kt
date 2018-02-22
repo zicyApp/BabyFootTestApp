@@ -149,9 +149,8 @@ class AppHelper {
 
     fun getTimeAgo(c: Context, timestamp: Long): String {
         try {
-            Log.e("timestamp", "" + timestamp)
             val format = SimpleDateFormat("HH:mm", Locale.CANADA_FRENCH)
-            var dateFormat = SimpleDateFormat("YYYY, MMM dd", Locale.CANADA_FRENCH)
+            var dateFormat = SimpleDateFormat("yyyy, MMM dd", Locale.CANADA_FRENCH)
             val past = Date(timestamp)
             val now = Date()
             val seconds = TimeUnit.MILLISECONDS.toSeconds(now.time - past.time)
