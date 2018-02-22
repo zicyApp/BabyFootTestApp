@@ -9,5 +9,5 @@ data class MatchListObject (
     var home_team: TeamObject? = null,
     var status: String = "",
     var place: PlaceObject? = null,
-    var date: String = ""
+    var date: Long = 0
 )

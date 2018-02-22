@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">BabyFoot</string>
 
-    <string name="login_header_text">Enter the competition with your colleges!</string>
+    <string name="login_header_text">Entrez en compétition avec vos collègues!</string>
     <string name="login_bottom_text">© Les applications mobiles Agyl</string>
     <string name="first_name">Prénom</string>
     <string name="last_name">Nom</string>
@@ -12,4 +12,16 @@
     <string name="last_name_missing">Veuillez entrer votre nom.</string>
     <string name="error_occurred">Une erreur s\'est produite lors du traitement de votre demande. Veuillez réessayer plus tard.</string>
     <string name="loading_message">Chargement, veuillez patienter</string>
+    <string name="live">En Direct</string>
+    <string name="event_final">Résultat final</string>
+    <string name="upcoming">Prochain</string>
+    <string name="history">Historique</string>
+    <string name="winners">Gagnants</string>
+    <string name="yesterday">Hier</string>
+    <string name="today">Ajourd\'hui</string>
+    <string name="days_ago">Il y a ## jour(s)</string>
+    <string name="_yes">Oui</string>
+    <string name="_no">Non</string>
+    <string name="log_out_message">Êtes-vous sûr de vouloir vous déconnecter?</string>
+    <string name="alert">Alerte</string>
 </resources>

@@ -7,7 +7,11 @@ import android.preference.PreferenceManager
 import android.support.v4.content.ContextCompat
 import java.util.*
 import android.text.TextUtils
-
+import android.util.Log
+import com.afollestad.materialdialogs.MaterialDialog
+import com.example.robertpolovitzer.babyfoot.R
+import java.text.SimpleDateFormat
+import java.util.concurrent.TimeUnit
 
 
 /**
@@ -118,6 +122,67 @@ class AppHelper {
         }
 
         return phrase.toString()
+    }
+
+    fun getStatus(c: Context, status: String): String {
+        if(status.equals("inProgress")) {
+            return c.resources.getString(R.string.live)
+        } else if (status.equals("final")) {
+            return c.resources.getString(R.string.event_final)
+        } else {
+            return c.resources.getString(R.string.upcoming)
+        }
+    }
+
+    fun getTime(timestamp: Long): String {
+        val s = SimpleDateFormat("HH:mm")
+        return s.format(Date(timestamp))
+    }
+
+    fun dpFromPx(context: Context, px: Float): Float {
+        return px / context.resources.displayMetrics.density
+    }
+
+    fun pxFromDp(context: Context, dp: Float): Float {
+        return dp * context.resources.displayMetrics.density
+    }
+
+    fun getTimeAgo(c: Context, timestamp: Long): String {
+        try {
+            Log.e("timestamp", "" + timestamp)
+            val format = SimpleDateFormat("HH:mm", Locale.CANADA_FRENCH)
+            var dateFormat = SimpleDateFormat("YYYY, MMM dd", Locale.CANADA_FRENCH)
+            val past = Date(timestamp)
+            val now = Date()
+            val seconds = TimeUnit.MILLISECONDS.toSeconds(now.time - past.time)
+            val minutes = TimeUnit.MILLISECONDS.toMinutes(now.time - past.time)
+            val hours = TimeUnit.MILLISECONDS.toHours(now.time - past.time)
+
+            if (seconds < 60) {
+                return (c.getString(R.string.today) + ", " + format.format(past))
+            } else if (minutes < 60) {
+                return (c.getString(R.string.today) + ", " + format.format(past))
+            } else if (hours < 24) {
+                return (c.getString(R.string.yesterday) + ", " + format.format(past))
+            } else if (hours > 48) {
+                return (dateFormat.format(past))
+            }
+        } catch (j: Exception) {
+            j.printStackTrace()
+        }
+        return ""
+    }
+
+    fun showAlert(c: Context, title: String, msg: String) {
+        MaterialDialog.Builder(c)
+                .title(title)
+                .content(msg)
+                .positiveText("Ok")
+                .positiveColor(AppHelper().getColor(c, R.color.colorTextGreen))
+                .onAny { _, _ ->
+
+                }
+                .show()
     }
 
 }

@@ -5,13 +5,10 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
-import com.afollestad.materialdialogs.MaterialDialog
 import com.bumptech.glide.Glide
 import com.example.robertpolovitzer.babyfoot.R
 import com.example.robertpolovitzer.babyfoot.adapters.ListViewAdapter
@@ -23,12 +20,11 @@ import com.example.robertpolovitzer.babyfoot.helpers.AppHelper
 import retrofit.RetrofitError
 import retrofit.client.Response
 import java.util.ArrayList
-import javax.security.auth.callback.Callback
 
 /**
  * Created by robertpolovitzer on 18-02-22.
  */
-class ListActivity : AppCompatActivity() {
+class DetailActivity : AppCompatActivity() {
 
     @BindView(R.id.text_islive)
     lateinit var textIsLive: TextView
@@ -66,31 +62,27 @@ class ListActivity : AppCompatActivity() {
     @BindView(R.id.recycle_view)
     lateinit var recyclerView: RecyclerView
 
-    private var matchList: ArrayList<MatchListObject>? = null
-    private var listItems: ArrayList<MatchListObject>? = null
-    private var listAdapter: ListViewAdapter? = null
+    private var match: MatchListObject? = null
+    private var matchId: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_list)
+        setContentView(R.layout.activity_detail)
         ButterKnife.bind(this)
+        var intent: Intent = getIntent()
+        if(intent.hasExtra("matchId")) {
+            matchId = intent.getIntExtra("matchId", 0)
+        } else {
+            finish()
+        }
         initView()
     }
 
     fun initView() {
-        ApiHandler().getService(this, 1)?.getAllMatches(object: retrofit.Callback<ArrayList<MatchListObject>> {
-            override fun success(t: ArrayList<MatchListObject>?, response: Response?) {
-                matchList = t
-                //Set first item in header
-                setMainItem(matchList!!.first())
-                listItems = matchList!!
-                listItems!!.removeAt(0)
-
-                recyclerView.minimumHeight = AppHelper().pxFromDp(applicationContext, listItems!!.count() * 220f).toInt()
-                recyclerView.setNestedScrollingEnabled(false);
-                listAdapter = ListViewAdapter(this@ListActivity, listItems!!)
-                recyclerView.setLayoutManager(LinearLayoutManager(this@ListActivity, LinearLayoutManager.VERTICAL, false))
-                recyclerView.setAdapter(listAdapter)
+        ApiHandler().getService(this, 1)?.getMatch(matchId, object: retrofit.Callback<MatchListObject> {
+            override fun success(t: MatchListObject?, response: Response?) {
+                match = t
+                setMainItem(match!!)
             }
 
             override fun failure(error: RetrofitError?) {
@@ -126,10 +118,10 @@ class ListActivity : AppCompatActivity() {
 
     fun setImage(image: ImageView, url: String) {
         Glide
-            .with(this)
-            .load(url)
-            .centerCrop()
-            .into(image)
+                .with(this)
+                .load(url)
+                .centerCrop()
+                .into(image)
     }
 
     override fun onResume() {
@@ -139,7 +131,9 @@ class ListActivity : AppCompatActivity() {
             val intent = Intent(applicationContext, LoginActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(intent)
+            return
         }
+
         refreshToken()
     }
 
@@ -158,23 +152,5 @@ class ListActivity : AppCompatActivity() {
                 }
             })
         }
-    }
-
-    override fun onBackPressed() {
-        MaterialDialog.Builder(this)
-                .title(resources.getString(R.string.alert))
-                .content(resources.getString(R.string.log_out_message))
-                .positiveText(resources.getString(R.string._yes))
-                .negativeText(resources.getString(R.string._no))
-                .positiveColor(AppHelper().getColor(this, R.color.colorTextGreen))
-                .negativeColor(AppHelper().getColor(this, R.color.colorTextGreen))
-                .onPositive { _, _ ->
-                    AppHelper().setPref(applicationContext, AppHelper().SessionIssuedAt, 0)
-                    AppHelper().setPref(applicationContext, AppHelper().SessionExpiresIn, 0)
-                    val intent = Intent(applicationContext, LoginActivity::class.java)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    startActivity(intent)
-                }
-                .show()
     }
 }

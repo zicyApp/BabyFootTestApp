@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorTextGreen">#00C56D</color>
+    <color name="colorTextGreenDark">#189457</color>
     <color name="colorPrimary">#4FE189</color>
     <color name="colorPrimaryDark">#38AF67</color>
     <color name="colorTextDark">#050505</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorTextGrayLight">#C8C7CC</color>
+    <color name="colorListDate">#C1C1C1</color>
     <color name="colorBackground">#FAFAFA</color>
+    <color name="colorWinnerGreen">#00B862</color>
 </resources>

@@ -112,12 +112,12 @@ class LoginActivity : AppCompatActivity() {
 
     private fun executeSubmit() {
         if (firstName.text.length == 0) {
-            showAlert(resources.getString(R.string.error), resources.getString(R.string.first_name_missing))
+            AppHelper().showAlert(applicationContext,resources.getString(R.string.error), resources.getString(R.string.first_name_missing))
             return
         }
 
         if (lastName.text.length == 0) {
-            showAlert(resources.getString(R.string.error), resources.getString(R.string.last_name_missing))
+            AppHelper().showAlert(applicationContext, resources.getString(R.string.error), resources.getString(R.string.last_name_missing))
             return
         }
 
@@ -139,7 +139,7 @@ class LoginActivity : AppCompatActivity() {
 
         login.device = device
 
-        ApiHandler().getService(this@LoginActivity, false)?.postLogin(login, object: Callback<LoginResponseObject> {
+        ApiHandler().getService(this@LoginActivity, 0)?.postLogin(login, object: Callback<LoginResponseObject> {
             override fun success(t: LoginResponseObject?, response: Response?) {
                 if (t != null) {
                     AppHelper().setPref(applicationContext, AppHelper().SessionAccessToken, t.accessToken)
@@ -152,21 +152,9 @@ class LoginActivity : AppCompatActivity() {
 
             override fun failure(error: RetrofitError?) {
                 progressDialog.dismiss()
-                showAlert(resources.getString(R.string.error), resources.getString(R.string.error_occurred))
+                AppHelper().showAlert(applicationContext, resources.getString(R.string.error), resources.getString(R.string.error_occurred))
             }
         })
-    }
-
-    fun showAlert(title: String, msg: String) {
-        MaterialDialog.Builder(this@LoginActivity)
-                .title(title)
-                .content(msg)
-                .positiveText("Ok")
-                .positiveColor(AppHelper().getColor(this, R.color.colorTextGreen))
-                .onAny { _, _ ->
-
-                }
-                .show()
     }
 
     fun goListView() {

@@ -5,6 +5,7 @@ import android.widget.Toast
 import com.example.robertpolovitzer.babyfoot.api.objects.LoginObject
 import com.example.robertpolovitzer.babyfoot.api.objects.LoginResponseObject
 import com.example.robertpolovitzer.babyfoot.api.objects.MatchListObject
+import com.example.robertpolovitzer.babyfoot.api.objects.RefreshObject
 import com.example.robertpolovitzer.babyfoot.helpers.AppHelper
 import com.google.gson.*
 import com.google.gson.reflect.TypeToken
@@ -43,6 +44,12 @@ class ApiHandler {
 
         @POST("/v1/user/login")
         fun postLogin(@Body loginInfo: LoginObject, callback: Callback<LoginResponseObject>)
+
+        @POST("/v1/user/refreshToken")
+        fun postRefresh(@Body refreshToken: RefreshObject, callback: Callback<LoginResponseObject>)
+
+        @GET("/v1/matches/{id}")
+        fun getMatch(@Path("id") Id: Int, callback: Callback<MatchListObject>)
     }
 
     private val RequestBearer = RequestInterceptor {
@@ -98,23 +105,37 @@ class ApiHandler {
             .registerTypeAdapterFactory(NullStringToEmptyAdapterFactory<Any>())
             .create()
 
-    fun getService(context: Context?, checkIfBearer: Boolean): ApiInterface? {
+    fun getService(context: Context?, type: Int): ApiInterface? {
         this.context = context
         if (ApiService == null) {
             val okHttpClient = OkHttpClient()
             okHttpClient.setReadTimeout(60, TimeUnit.SECONDS)
             okHttpClient.setConnectTimeout(60, TimeUnit.SECONDS)
 
-            ApiService = RestAdapter.Builder()
-                    .setEndpoint(ApiPageBaseUrl)
-                    .setRequestInterceptor(if(checkIfBearer) { RequestBearer } else { RequestBasic})
-                    .setConverter(GsonConverter(GSON))
-                    .setClient(OkClient(okHttpClient))
-                    .setLogLevel(RestAdapter.LogLevel.FULL)
-                    .build().create(ApiInterface::class.java)
+            if (type != 2) {
+                ApiService = RestAdapter.Builder()
+                        .setEndpoint(ApiPageBaseUrl)
+                        .setRequestInterceptor(if (type == 1) {
+                            RequestBearer
+                        } else {
+                            RequestBasic
+                        })
+                        .setConverter(GsonConverter(GSON))
+                        .setClient(OkClient(okHttpClient))
+                        .setLogLevel(RestAdapter.LogLevel.FULL)
+                        .build().create(ApiInterface::class.java)
+            } else {
+                ApiService = RestAdapter.Builder()
+                        .setEndpoint(ApiPageBaseUrl)
+                        .setConverter(GsonConverter(GSON))
+                        .setClient(OkClient(okHttpClient))
+                        .setLogLevel(RestAdapter.LogLevel.FULL)
+                        .build().create(ApiInterface::class.java)
+            }
+
+
         }
 
         return ApiService
     }
-
 }
