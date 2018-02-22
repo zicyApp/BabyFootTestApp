@@ -136,7 +136,7 @@ class AppHelper {
 
     fun getTime(timestamp: Long): String {
         val s = SimpleDateFormat("HH:mm")
-        return s.format(Date(timestamp))
+        return s.format(Date(timestamp * 1000L))
     }
 
     fun dpFromPx(context: Context, px: Float): Float {
@@ -151,7 +151,7 @@ class AppHelper {
         try {
             val format = SimpleDateFormat("HH:mm", Locale.CANADA_FRENCH)
             var dateFormat = SimpleDateFormat("yyyy, MMM dd", Locale.CANADA_FRENCH)
-            val past = Date(timestamp)
+            val past = Date(timestamp * 1000L)
             val now = Date()
             val seconds = TimeUnit.MILLISECONDS.toSeconds(now.time - past.time)
             val minutes = TimeUnit.MILLISECONDS.toMinutes(now.time - past.time)
