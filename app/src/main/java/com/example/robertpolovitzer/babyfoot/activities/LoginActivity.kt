@@ -47,6 +47,12 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         ButterKnife.bind(this)
+
+        if (AppHelper().checkIfLogged(applicationContext)) {
+            goListView()
+            return
+        }
+
         initView()
     }
 
@@ -140,9 +146,7 @@ class LoginActivity : AppCompatActivity() {
                     AppHelper().setPref(applicationContext, AppHelper().SessionRefreshToken, t.refreshToken)
                     AppHelper().setPref(applicationContext, AppHelper().SessionIssuedAt, t.issuedAt)
                     AppHelper().setPref(applicationContext, AppHelper().SessionExpiresIn, t.expiresIn)
-
-                    val intent = Intent(this@LoginActivity, ListActivity::class.java)
-                    startActivity(intent)
+                    goListView()
                 }
             }
 
@@ -163,6 +167,11 @@ class LoginActivity : AppCompatActivity() {
 
                 }
                 .show()
+    }
+
+    fun goListView() {
+        val intent = Intent(this@LoginActivity, ListActivity::class.java)
+        startActivity(intent)
     }
 
 }

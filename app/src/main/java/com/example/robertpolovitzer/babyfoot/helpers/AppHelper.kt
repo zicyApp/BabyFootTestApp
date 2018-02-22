@@ -66,6 +66,16 @@ class AppHelper {
         }
     }
 
+    fun checkIfLogged(c: Context): Boolean {
+        val currentTime = System.currentTimeMillis() / 1000
+        val lastLogged = getPref(c, AppHelper().SessionIssuedAt, 0)
+        val limit = getPref(c, AppHelper().SessionExpiresIn, 0)
+        if (currentTime < (lastLogged + limit)) {
+            return true
+        }
+        return false
+    }
+
     fun getUniquePhoneIdentity(): String {
         val m_szDevIDShort = "35" + Build.BOARD.length % 10 + Build.BRAND.length % 10 + Build.CPU_ABI.length % 10 + Build.DEVICE.length % 10 + Build.MANUFACTURER.length % 10 + Build.MODEL.length % 10 + Build.PRODUCT.length % 10
         var serial: String? = null
